@@ -159,34 +159,55 @@ This code is responsible for processing and storing documents that are uploaded 
 
 ---
 
-### Deployment Scripts
+### Backend Deployment on Render:
 
-To deploy the backend application, you can use the following steps:
+- The backend of this project is deployed on [Render](https://render.com).
+- You can automate deployment with a `render.yaml` file to define the environment settings for Render or follow these manual steps:
 
-1. **Install Dependencies**:
-   - Make sure all required packages are installed. Run:
-     ```bash
-     cd backend
-     pip install -r requirements.txt
-     ```
+   - **Create a New Web Service**: 
+     - Log into [Render](https://render.com) and create a new web service for the backend.
+     - Connect it to your GitHub repository.
 
-2. **Environment Setup**:
-   - Ensure the necessary environment variables are configured (like API keys for Weaviate, OpenAI, etc.).
+   - **Build Command**:
+     - In the service settings, set the build command to install dependencies and run the FastAPI server:
+       ```bash
+       cd backend
+       pip install -r requirements.txt
+       uvicorn main:app --host 0.0.0.0 --port 8000
+       ```
 
-3. **Run the Application**:
-   - To run the FastAPI server locally:
-     ```bash
-     uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-     ```   
+   - **Environment Variables**:
+     - Add the necessary environment variables for Weaviate, OpenAI, and other integrations under the "Environment" tab.
 
-4. **Deploying to Render**:
-   - This project backend is deployed to [Render](https://asksmart.onrender.com) and frontend is deployed to [Vercel](https://vercel.com/)
-   - You can automate deployment with a `render.yaml` file to define the environment settings for Render, or follow manual deployment steps:
-     - Create a new web service on Render.
-     - Set up the build command to install dependencies and run the FastAPI server.
-     - Set environment variables required for Weaviate and OpenAI integration.
-     - Deploy and obtain the live URL of your application.
-   
+   - **Deploy**:
+     - Once configured, deploy the service and obtain the live URL for your backend (e.g., `https://asksmart.onrender.com`).
+
+### Frontend Deployment on Vercel:
+
+- The frontend of this project is deployed on [Vercel](https://vercel.com).
+- You can automate deployment via Vercel or follow these manual steps:
+
+   - **Create a New Project**:
+     - Log into [Vercel](https://vercel.com) and create a new project.
+     - Select your GitHub repository and choose the **frontend** folder to deploy as a separate Vercel project.
+
+   - **Build Command**:
+     - In the project settings, set the build command to install dependencies and build the React app:
+       ```bash
+       cd frontend
+       npm install
+       npm run build
+       ```
+
+   - **Output Directory**:
+     - Ensure that the output directory is set to `build` (as Vercel automatically looks for this folder in React projects).
+
+   - **Environment Variables**:
+     - Set any necessary environment variables, such as API URLs pointing to the backend (e.g., the Render URL).
+
+   - **Deploy**:
+     - Deploy the frontend, and Vercel will provide a live URL (e.g., `https://asksmart-frontend.vercel.app`).
+  
 
 ****
 
