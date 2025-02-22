@@ -8,8 +8,6 @@ load_dotenv()
 llm = ChatMistralAI(
     model="mistral-large-latest",
     temperature=0,
-    max_retries=2,
-    # api_key=Mistral_API
 )
 embeddings = MistralAIEmbeddings(model="mistral-embed")
 parser = StrOutputParser()
