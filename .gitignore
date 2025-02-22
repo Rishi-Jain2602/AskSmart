@@ -1,0 +1,10 @@
+/backend/.env
+/backend/venv
+/frontend/node_modules
+/backend/__pycache__
+/backend/models/__pycache__
+/backend/src/__pycache__
+/backend/src/VectorDb/__pycache__
+/backend/temp_files
+/backend/MongoDb/__pycache__
+/backend/chain/__pycache__
