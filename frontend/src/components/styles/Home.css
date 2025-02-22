@@ -1,0 +1,71 @@
+/* Main container for the homepage */
+.home-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background-color: #f5f5f5;
+    padding: 2rem;
+    text-align: center;
+}
+
+/* Title styling */
+.home-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #4ca1af;
+    margin-bottom: 1rem;
+    font-family: 'Roboto', sans-serif;
+}
+
+/* Description styling */
+.home-description {
+    font-size: 1.2rem;
+    font-weight: 400;
+    color: #333;
+    max-width: 600px;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+    font-family: 'Open Sans', sans-serif;
+}
+
+/* Supported formats section */
+.home-supported-formats {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #007bff;
+    margin-bottom: 3rem;
+}
+
+/* Button styling */
+.home-button {
+    font-size: 1.2rem;
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    background-color: #4ca1af;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+}
+
+.home-button:hover {
+    background-color: #3b8992;
+}
+
+/* Responsive styling */
+@media (max-width: 768px) {
+    .home-title {
+        font-size: 2rem;
+    }
+
+    .home-description {
+        font-size: 1rem;
+    }
+
+    .home-button {
+        font-size: 1rem;
+    }
+}

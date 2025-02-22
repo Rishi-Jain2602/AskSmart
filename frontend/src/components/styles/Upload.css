@@ -1,0 +1,132 @@
+/* Upload.css */
+
+.container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    height: 100vh; /* Full height */
+    background-color: #f8f9fa;
+  }
+  
+  .upload-form {
+    background-color: #ffffff; /* White background for the form */
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Soft shadow for a clean effect */
+    width: 100%;
+    max-width: 500px;
+  }
+
+.status-section {
+    width: 100%;
+    max-width: 500px;
+    margin-top: 20px; /* Add spacing between the form and the status section */
+  }
+  
+  .upload-form label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .upload-form input {
+    margin-bottom: 1rem;
+  }
+  
+  .upload-form button {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .upload-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Spinner styling */
+  .spinner-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #007bff;
+  }
+  
+  .text-success {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #28a745;
+  }
+  
+  @media (max-width: 768px) {
+    .upload-form {
+      padding: 1.5rem;
+      box-shadow: none; /* Remove shadow for smaller devices */
+    }
+  }
+  
+  .upload-form label {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .upload-form input {
+    margin-bottom: 1rem;
+  }
+  
+  .upload-form button {
+    width: 100%;
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.75rem;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    transition: background-color 0.3s ease;
+  }
+  
+  .upload-form button:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Spinner styling */
+  .spinner-text {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #007bff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Success message styling */
+  .text-success {
+    font-size: 1.1rem;
+    font-weight: 500;
+    color: #28a745;
+    margin-top: 10px;
+  }
+  
+  /* Make the layout responsive for smaller devices */
+  @media (max-width: 480px) {
+    .upload-form {
+      padding: 1rem;
+    }
+  
+    .spinner-text {
+      font-size: 1rem;
+    }
+  
+    .text-success {
+      font-size: 1rem;
+    }
+  }
