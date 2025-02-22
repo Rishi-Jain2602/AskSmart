@@ -6,5 +6,5 @@
 /backend/src/__pycache__
 /backend/src/VectorDb/__pycache__
 /backend/temp_files
-/backend/MongoDb/__pycache__
+/backend/src/MongoDb/__pycache__
 /backend/chain/__pycache__
