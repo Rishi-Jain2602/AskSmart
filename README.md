@@ -1,6 +1,5 @@
 # AskSmart: A RAG-Powered Intelligent Query System
 
-
 **AskSmart** is a powerful document retrieval system that allows you to upload and process various formats such as **PDF, DOCX, JSON, and TXT**. Our advanced AI technology retrieves relevant information and generates context-aware responses to your queries.
 
 **Supported Formats: PDF, DOCX, JSON, TXT**
@@ -62,13 +61,22 @@ uvicorn main:app --host 0.0.0.0 --port 8000 --reload
 
 This code is responsible for processing and storing documents that are uploaded by users, preparing them for retrieval and generation of context-based responses. Here's how the pipeline works:
 
-1. **File Upload**: 
-   The user uploads a document (PDF, DOCX, JSON, or TXT) through an API endpoint (`/Rag/upload`), which is saved locally in a designated folder.
+1. **File Upload and Processing Based on Format:**: 
+   When a user uploads a document (PDF, DOCX, JSON, or TXT), the system processes it using appropriate loaders based on the file type. Here’s the logic for handling different formats:
    ```python
-   doc_id = str(uuid.uuid4())
-   file_location = os.path.join(UPLOAD_DIR, f"{doc_id}_{file.filename}")
-   with open(file_location, "wb") as buffer:
-       shutil.copyfileobj(file.file, buffer)
+   if file_path.endswith(".pdf"):
+        loader = PyPDFLoader(file)
+    elif file_path.endswith(".docx"):
+        loader = Docx2txtLoader(file)
+    elif file_path.endswith(".json"):
+        loader = JSONLoader(file, jq_schema=".", text_content=False, json_lines=False)
+    elif file_path.endswith(".txt"):
+        loader = TextLoader(file)
+    else:
+        raise ValueError("Unsupported file format. Please upload a PDF, DOCX, JSON, or TXT file.")
+    
+    # Load the document content
+    documents = loader.load()
    ```
 
 2. **Document Processing**:
@@ -77,8 +85,14 @@ This code is responsible for processing and storing documents that are uploaded 
    text_splitter = CharacterTextSplitter(chunk_size=2000, chunk_overlap=200)
    docs = text_splitter.split_documents(documents)
    ```
+3. **Handling Duplicate File Names** :
+   The system automatically checks if a collection with the same name exists. If it does, the old data is deleted, and the new data is updated. This prevents conflicts when uploading a new file with the same name.
+   ```python
+    if client.collections.exists(valid_name):
+        client.collections.delete(valid_name)
+   ```
 
-3. **Data Storage**:
+5. **Data Storage**:
    These chunks are then added to a collection in Weaviate, with relevant metadata such as the document title, chunk index, and document ID.
    ```python
    data_properties = {
@@ -91,7 +105,7 @@ This code is responsible for processing and storing documents that are uploaded 
    chunks_list.append(data_object)
    ```
 
-4. **Chunk Insertion**:
+6. **Chunk Insertion**:
    The chunks are inserted into Weaviate in batches to optimize performance.
    ```python
    for i in range(0, len(chunks_list), batch_size):
@@ -147,11 +161,12 @@ This code is responsible for processing and storing documents that are uploaded 
 
 ### Deployment Scripts
 
-To deploy the application, you can use the following steps:
+To deploy the backend application, you can use the following steps:
 
 1. **Install Dependencies**:
    - Make sure all required packages are installed. Run:
      ```bash
+     cd backend
      pip install -r requirements.txt
      ```
 
@@ -165,17 +180,17 @@ To deploy the application, you can use the following steps:
      ```   
 
 4. **Deploying to Render**:
-   - The project is deployed to [Render](https://asksmart.onrender.com).
+   - This project backend is deployed to [Render](https://asksmart.onrender.com) and frontend is deployed to [Vercel](https://vercel.com/)
    - You can automate deployment with a `render.yaml` file to define the environment settings for Render, or follow manual deployment steps:
      - Create a new web service on Render.
      - Set up the build command to install dependencies and run the FastAPI server.
      - Set environment variables required for Weaviate and OpenAI integration.
      - Deploy and obtain the live URL of your application.
-
+   
 
 ****
 
 ## Note
-1. Make sure you have Python 3.x installed
-2. It is recommended to use a virtual environment to avoid conflict with other projects.
+1. Make sure you have Python 3.x and npm 10.x installed
+2. It is recommended to use a virtual environment for backend to avoid conflict with other projects.
 3. If you encounter any issue during installation or usage please contact rishijainai262003@gmail.com or rj1016743@gmail.com
