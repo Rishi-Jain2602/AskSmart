@@ -63,7 +63,7 @@ export default function Chat() {
     // Call the API endpoint
     const storedDocID = localStorage.getItem('doct_id') || "default_doct_id";
     try {
-      const response = await fetch("http://127.0.0.1:8000/Rag/chat", {
+      const response = await fetch("https://asksmart.onrender.com/Rag/chat", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

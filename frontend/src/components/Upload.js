@@ -24,7 +24,7 @@ export default function Upload() {
     formData.append("file", selectedFile);
 
     try {
-      const res = await fetch("http://127.0.0.1:8000/Rag/upload", {
+      const res = await fetch("https://asksmart.onrender.com/Rag/upload", {
         method: "POST",
         body: formData,
       });
