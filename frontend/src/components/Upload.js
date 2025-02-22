@@ -31,9 +31,15 @@ export default function Upload() {
       const data = await res.json();
       setUploadResponse(data);
 
-      setTimeout(() => {
-        navigate("/chat");
-      }, 3000);
+      if (data.doct_id) {
+        localStorage.setItem('doct_id', data.doct_id);
+        setTimeout(() => {
+          navigate("/chat");
+        }, 3000);
+      }else{
+        alert("Error in uploading document")
+      }
+
     } catch (error) {
       console.error("Error uploading file:", error);
     } finally {

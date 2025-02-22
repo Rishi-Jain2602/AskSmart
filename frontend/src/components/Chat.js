@@ -61,6 +61,7 @@ export default function Chat() {
     setInputMessage('');
 
     // Call the API endpoint
+    const storedDocID = localStorage.getItem('doct_id') || "default_doct_id";
     try {
       const response = await fetch("http://127.0.0.1:8000/Rag/chat", {
         method: "POST",
@@ -69,7 +70,7 @@ export default function Chat() {
         },
         body: JSON.stringify({ "user_id":sessionId,
             "query":currentInput,
-            "doctID":"51ec13f1-2ac0-4aff-b69c-b88da1655c9a" })
+            "doctID":storedDocID })
       });
       const data = await response.json();
       // Assuming the API returns a JSON object with a key "response"
