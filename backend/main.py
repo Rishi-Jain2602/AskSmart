@@ -4,10 +4,11 @@ import os, shutil, uuid, uvicorn
 from src.VectorDb.DBupload import weaviate_ret
 from src.VectorDb.config import client
 from chain.models import UserQuery
-from src.VectorDb.schema import chunks
+# from src.VectorDb.schema import chunks
 from chain.mistral import chain
 from src.MongoDb.Db import conv_collection,update_db
 from dotenv import load_dotenv
+from src.VectorDb.config import client
 import logging
 load_dotenv()
 app = FastAPI()
@@ -36,10 +37,10 @@ async def upload_doc(file: UploadFile = File(...)):
     with open(file_location, "wb") as buffer:
         shutil.copyfileobj(file.file, buffer)
     
-    weaviate_ret(file_location, doc_id)
+    collection_name =weaviate_ret(file_location, doc_id,file.filename.split('.')[0])
         
     return {
-        "doc_id": doc_id,
+        "doct_id": collection_name,
         "filename": file.filename,
         "message": "Upload and processing complete"
     }
@@ -53,19 +54,27 @@ async def query(qry: UserQuery, background_tasks: BackgroundTasks):
     else:
         history_messages = []
 
+    if not client.collections.exists(qry.doctID):
+        return {
+            "error": True,
+            "response": "Please upload a document first or reload your document."
+        }
+
+    chunks = client.collections.get(qry.doctID)
     response = chunks.generate.fetch_objects(
         limit=5,
-        grouped_task=qry.query,
+        grouped_task=qry.query + "Ans to my query based on the data available in document. If data is insufficient or not available.Then reply by saying 'Apologies, but this query falls beyond my training data. Let me know if I can assist you with anything else!'",
     )
     print(response.generated)
-    
+
     if response.generated is None:
         return {"response":"Please upload a document"}
 
-    data = ""
+    data = response.generated
     Objects = response.objects
     for obj in Objects:
         data += obj.properties["chunk"]
+        print(obj.properties["chunk"])
     
     response = chain.invoke({
         "query":qry.query,
