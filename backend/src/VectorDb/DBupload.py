@@ -1,12 +1,15 @@
 from .Data_Split import process_documents
 import weaviate.classes as wvc
-from .schema import chunks
+from .schema import create_collection
 import os
 
-def weaviate_ret(path,docuemtID):
+def weaviate_ret(path,docuemtID,filename):
     chunked_text = process_documents(path)
     chunks_list = []
     doct_name = os.path.basename(path)
+    collection_creation = create_collection(filename)
+    chunks = collection_creation[0]
+    collection_name = collection_creation[1]
 
     for i, chunk in enumerate(chunked_text):
         print(f"chunk {i} type: {type(chunk)}")
@@ -27,3 +30,5 @@ def weaviate_ret(path,docuemtID):
     for i in range(0, len(chunks_list), batch_size):
         batch = chunks_list[i:i + batch_size]
         chunks.data.insert_many(batch)
+
+    return collection_name
